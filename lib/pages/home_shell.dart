@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'posts_page.dart';
+import 'articulos_page.dart';
 import 'usuarios_page.dart';
 
-/// Contenedor principal con navegación entre el ejemplo guiado y el
-/// ejercicio evaluable.
+/// Contenedor principal con navegación entre las dos pantallas de la práctica.
 class HomeShell extends StatefulWidget {
   const HomeShell({super.key});
 
@@ -15,7 +14,7 @@ class HomeShell extends StatefulWidget {
 class _HomeShellState extends State<HomeShell> {
   int _indice = 0;
 
-  static const _paginas = <Widget>[PostsPage(), UsuariosPage()];
+  static const _paginas = <Widget>[ArticulosPage(), UsuariosPage()];
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +25,9 @@ class _HomeShellState extends State<HomeShell> {
         onDestinationSelected: (indice) => setState(() => _indice = indice),
         destinations: const [
           NavigationDestination(
-            icon: Icon(Icons.article_outlined),
-            selectedIcon: Icon(Icons.article),
-            label: 'Publicaciones',
+            icon: Icon(Icons.menu_book_outlined),
+            selectedIcon: Icon(Icons.menu_book),
+            label: 'Artículos',
           ),
           NavigationDestination(
             icon: Icon(Icons.group_outlined),

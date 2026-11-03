@@ -3,23 +3,10 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../models/post.dart';
 import '../models/usuario.dart';
+import 'api_exception.dart';
 
-/// Error de dominio para fallas de red, HTTP o de formato JSON.
-class ApiException implements Exception {
-  const ApiException(this.mensaje);
-
-  final String mensaje;
-
-  @override
-  String toString() => mensaje;
-}
-
-/// Cliente del API público JSONPlaceholder.
-///
-/// Centraliza la URL base, el tiempo de espera, la validación del código de
-/// estado y la conversión de JSON a objetos de dominio.
+/// Cliente del API público JSONPlaceholder (ejemplo guiado de `/users`).
 class JsonPlaceholderApi {
   JsonPlaceholderApi({
     http.Client? client,
@@ -35,51 +22,8 @@ class JsonPlaceholderApi {
   final Duration timeout;
 
   /// GET `/users`.
-  Future<List<Usuario>> usuarios() => _obtenerLista('/users', Usuario.fromJson);
-
-  /// GET `/posts`.
-  Future<List<Post>> posts() => _obtenerLista('/posts', Post.fromJson);
-
-  /// GET `/posts/{id}`.
-  Future<Post> post(int id) async {
-    final json = await _obtenerJson('/posts/$id');
-    if (json is! Map<String, dynamic>) {
-      throw const ApiException(
-        'Respuesta inesperada: se esperaba un objeto JSON.',
-      );
-    }
-    try {
-      return Post.fromJson(json);
-    } on FormatException catch (e) {
-      throw ApiException('Datos de publicación inválidos: ${e.message}');
-    }
-  }
-
-  Future<List<T>> _obtenerLista<T>(
-    String ruta,
-    T Function(Map<String, dynamic>) desdeJson,
-  ) async {
-    final json = await _obtenerJson(ruta);
-    if (json is! List) {
-      throw const ApiException(
-        'Respuesta inesperada: se esperaba una lista JSON.',
-      );
-    }
-    try {
-      return json
-          .map((elemento) => desdeJson(elemento as Map<String, dynamic>))
-          .toList(growable: false);
-    } on FormatException catch (e) {
-      throw ApiException('Datos inválidos en $ruta: ${e.message}');
-    } on TypeError {
-      throw ApiException(
-        'Datos inválidos en $ruta: se esperaban objetos JSON.',
-      );
-    }
-  }
-
-  Future<Object?> _obtenerJson(String ruta) async {
-    final uri = Uri.parse('$baseUrl$ruta');
+  Future<List<Usuario>> usuarios() async {
+    final uri = Uri.parse('$baseUrl/users');
     final http.Response respuesta;
     try {
       respuesta = await _client
@@ -97,14 +41,33 @@ class JsonPlaceholderApi {
 
     if (respuesta.statusCode < 200 || respuesta.statusCode >= 300) {
       throw ApiException(
-        'Error HTTP ${respuesta.statusCode} al consultar $ruta.',
+        'Error HTTP ${respuesta.statusCode} al consultar /users.',
+      );
+    }
+
+    final Object? json;
+    try {
+      json = jsonDecode(utf8.decode(respuesta.bodyBytes));
+    } on FormatException {
+      throw const ApiException('El cuerpo de la respuesta no es JSON válido.');
+    }
+
+    if (json is! List) {
+      throw const ApiException(
+        'Respuesta inesperada: se esperaba una lista JSON.',
       );
     }
 
     try {
-      return jsonDecode(utf8.decode(respuesta.bodyBytes));
-    } on FormatException {
-      throw const ApiException('El cuerpo de la respuesta no es JSON válido.');
+      return json
+          .map((elemento) => Usuario.fromJson(elemento as Map<String, dynamic>))
+          .toList(growable: false);
+    } on FormatException catch (e) {
+      throw ApiException('Datos inválidos en /users: ${e.message}');
+    } on TypeError {
+      throw const ApiException(
+        'Datos inválidos en /users: se esperaban objetos JSON.',
+      );
     }
   }
 

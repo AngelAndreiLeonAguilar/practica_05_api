@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../models/post.dart';
+import '../models/articulo.dart';
 
-/// Detalle de una publicación seleccionada en la lista.
-class PostDetailPage extends StatelessWidget {
-  const PostDetailPage({super.key, required this.post});
+/// Detalle de un artículo seleccionado en la lista.
+class ArticuloDetallePage extends StatelessWidget {
+  const ArticuloDetallePage({super.key, required this.articulo});
 
-  final Post post;
+  final Articulo articulo;
 
   @override
   Widget build(BuildContext context) {
@@ -24,17 +24,17 @@ class PostDetailPage extends StatelessWidget {
               children: [
                 Chip(
                   avatar: const Icon(Icons.tag, size: 18),
-                  label: Text('Publicación ${post.id}'),
+                  label: Text('Artículo ${articulo.id}'),
                 ),
-                Chip(
-                  avatar: const Icon(Icons.person_outline, size: 18),
-                  label: Text('Usuario ${post.userId}'),
+                const Chip(
+                  avatar: Icon(Icons.menu_book_outlined, size: 18),
+                  label: Text('Wikipedia en español'),
                 ),
               ],
             ),
             const SizedBox(height: 20),
             Text(
-              post.titulo,
+              articulo.titulo,
               key: const Key('detalle-titulo'),
               style: tema.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.w600,
@@ -44,8 +44,8 @@ class PostDetailPage extends StatelessWidget {
             const Divider(),
             const SizedBox(height: 16),
             Text(
-              post.cuerpo,
-              key: const Key('detalle-cuerpo'),
+              articulo.extracto,
+              key: const Key('detalle-extracto'),
               style: tema.textTheme.bodyLarge?.copyWith(height: 1.5),
             ),
           ],
