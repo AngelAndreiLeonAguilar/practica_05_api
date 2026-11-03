@@ -4,11 +4,7 @@ import 'json_utils.dart';
 ///
 /// Es el modelo del ejemplo guiado de la práctica.
 class Usuario {
-  const Usuario({
-    required this.id,
-    required this.nombre,
-    required this.correo,
-  });
+  const Usuario({required this.id, required this.nombre, required this.correo});
 
   factory Usuario.fromJson(Map<String, dynamic> json) => Usuario(
     id: leerEntero(json, 'id'),

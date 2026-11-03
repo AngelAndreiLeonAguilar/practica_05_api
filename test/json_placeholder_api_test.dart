@@ -46,9 +46,7 @@ void main() {
       MockClient((solicitud) async {
         expect(solicitud.url.path, '/users');
         return http.Response.bytes(
-          utf8.encode(
-            '[{"id": 1, "name": "Ana", "email": "ana@example.com"}]',
-          ),
+          utf8.encode('[{"id": 1, "name": "Ana", "email": "ana@example.com"}]'),
           200,
         );
       }),
@@ -145,18 +143,13 @@ void main() {
       ),
     );
 
-    await expectLater(
-      api.posts(),
-      throwsA(isA<ApiException>()),
-    );
+    await expectLater(api.posts(), throwsA(isA<ApiException>()));
     api.dispose();
   });
 
   test('convierte fallas de conexión en ApiException', () async {
     final api = _api(
-      MockClient(
-        (_) async => throw http.ClientException('sin red'),
-      ),
+      MockClient((_) async => throw http.ClientException('sin red')),
     );
 
     await expectLater(

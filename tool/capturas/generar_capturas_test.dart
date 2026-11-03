@@ -7,7 +7,6 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,7 +30,9 @@ Future<void> _cargarFuentes() async {
   await roboto.load();
 
   final iconos = FontLoader('MaterialIcons')
-    ..addFont(Future.value(_bytes('$_carpetaFuentes/materialicons-regular.otf')));
+    ..addFont(
+      Future.value(_bytes('$_carpetaFuentes/materialicons-regular.otf')),
+    );
   await iconos.load();
 }
 
@@ -153,9 +154,21 @@ void main() {
             jsonEncode([
               {'id': 1, 'name': 'Leanne Graham', 'email': 'Sincere@april.biz'},
               {'id': 2, 'name': 'Ervin Howell', 'email': 'Shanna@melissa.tv'},
-              {'id': 3, 'name': 'Clementine Bauch', 'email': 'Nathan@yesenia.net'},
-              {'id': 4, 'name': 'Patricia Lebsack', 'email': 'Julianne.OConner@kory.org'},
-              {'id': 5, 'name': 'Chelsey Dietrich', 'email': 'Lucio_Hettinger@annie.ca'},
+              {
+                'id': 3,
+                'name': 'Clementine Bauch',
+                'email': 'Nathan@yesenia.net',
+              },
+              {
+                'id': 4,
+                'name': 'Patricia Lebsack',
+                'email': 'Julianne.OConner@kory.org',
+              },
+              {
+                'id': 5,
+                'name': 'Chelsey Dietrich',
+                'email': 'Lucio_Hettinger@annie.ca',
+              },
             ]),
           ),
           200,

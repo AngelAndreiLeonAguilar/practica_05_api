@@ -35,8 +35,7 @@ class JsonPlaceholderApi {
   final Duration timeout;
 
   /// GET `/users`.
-  Future<List<Usuario>> usuarios() =>
-      _obtenerLista('/users', Usuario.fromJson);
+  Future<List<Usuario>> usuarios() => _obtenerLista('/users', Usuario.fromJson);
 
   /// GET `/posts`.
   Future<List<Post>> posts() => _obtenerLista('/posts', Post.fromJson);
@@ -45,7 +44,9 @@ class JsonPlaceholderApi {
   Future<Post> post(int id) async {
     final json = await _obtenerJson('/posts/$id');
     if (json is! Map<String, dynamic>) {
-      throw const ApiException('Respuesta inesperada: se esperaba un objeto JSON.');
+      throw const ApiException(
+        'Respuesta inesperada: se esperaba un objeto JSON.',
+      );
     }
     try {
       return Post.fromJson(json);
@@ -60,7 +61,9 @@ class JsonPlaceholderApi {
   ) async {
     final json = await _obtenerJson(ruta);
     if (json is! List) {
-      throw const ApiException('Respuesta inesperada: se esperaba una lista JSON.');
+      throw const ApiException(
+        'Respuesta inesperada: se esperaba una lista JSON.',
+      );
     }
     try {
       return json
@@ -69,7 +72,9 @@ class JsonPlaceholderApi {
     } on FormatException catch (e) {
       throw ApiException('Datos inválidos en $ruta: ${e.message}');
     } on TypeError {
-      throw ApiException('Datos inválidos en $ruta: se esperaban objetos JSON.');
+      throw ApiException(
+        'Datos inválidos en $ruta: se esperaban objetos JSON.',
+      );
     }
   }
 

@@ -154,9 +154,8 @@ class _TarjetaPost extends StatelessWidget {
                     const SizedBox(height: 6),
                     Text(
                       'Usuario ${post.userId}',
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                        color: colores.primary,
-                      ),
+                      style: Theme.of(context).textTheme.labelSmall
+                          ?.copyWith(color: colores.primary),
                     ),
                   ],
                 ),
