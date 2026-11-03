@@ -2,6 +2,7 @@
 //
 // Uso:
 //   dart run tool/verificar_api.dart
+// ignore_for_file: avoid_print
 import 'package:practica_05_api/models/articulo.dart';
 import 'package:practica_05_api/services/api_exception.dart';
 import 'package:practica_05_api/services/wikipedia_api.dart';
