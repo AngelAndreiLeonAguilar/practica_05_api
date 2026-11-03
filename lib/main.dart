@@ -1,4 +1,5 @@
-﻿import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-void main() => runApp(const MaterialApp(home: Scaffold()));
+import 'app.dart';
 
+void main() => runApp(const Practica05App());
