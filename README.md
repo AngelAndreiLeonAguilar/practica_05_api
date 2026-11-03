@@ -195,6 +195,28 @@ Ramas locales de este repositorio:
 - `develop`: proyecto base.
 - `practica-05-api-rest`: desarrollo de la práctica.
 
+## Solución de problemas
+
+### «Flutter failed to delete a directory at …\build\flutter_assets»
+
+Ocurre cuando otro proceso mantiene archivos abiertos dentro de `build\` (una ejecución
+anterior de `flutter run`/`flutter test`, una pestaña del navegador o el antivirus).
+
+```powershell
+# 1. Cierra las ventanas de Edge de la app y detén otros `flutter run` (q)
+# 2. Borra los artefactos y vuelve a intentar
+Remove-Item build -Recurse -Force -ErrorAction SilentlyContinue
+flutter clean
+flutter pub get
+flutter run -d edge
+```
+
+No ejecutes `flutter test` y `flutter run` al mismo tiempo: ambos escriben en `build\`.
+
+Si el error se repite con frecuencia, el proyecto está dentro de OneDrive y la
+sincronización puede bloquear archivos; mover el proyecto a una ruta local (por ejemplo
+`C:\dev\practica_05_api`) lo evita.
+
 ## Participantes
 
 | Nombre | Rol |
